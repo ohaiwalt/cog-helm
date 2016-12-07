@@ -1,0 +1,11 @@
+The Cog server can be accessed on the following DNS name inside the cluster: 
+{{ template "cog.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+
+{{ if .Values.cog.ingress.enabled -}}
+From outside the cluster, the server URL(s) are:
+{{- range .Values.cog.ingress.hosts }}
+http://{{ . }}
+{{- end }}
+{{- end }}
+
+For more information on running Cog, visit: https://operable.io/

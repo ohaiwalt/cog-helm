@@ -1,0 +1,17 @@
+apiVersion: v1
+description: A Helm chart to deploy Cog on Kubernetes
+name: cog
+version: 0.1.0
+keywords:
+- chatops
+- bot
+- cog
+home: https://operable.io/
+sources:
+- https://github.com/operable/cog
+- https://github.com/operable/relay
+- https://github.com/ohaiwalt/cog-helm
+maintainers:
+- name: Matthew Walter
+  email: ohaiwalt@gmail.com
+engine: gotpl
