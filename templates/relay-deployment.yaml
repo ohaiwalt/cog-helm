@@ -1,0 +1,65 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "relay.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  replicas: {{ .Values.relay.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "relay.fullname" . }}
+    spec:
+      containers:
+      - name: {{ .Values.relay.name }}
+        image: "{{ .Values.relay.image.repository }}:{{ .Values.relay.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          privileged: true
+        command:
+        - /usr/local/bin/relay
+        resources:
+{{ toYaml .Values.relay.resources | indent 10 }}
+        volumeMounts:
+        - name: docker-socket
+          mountPath: /var/run/docker.sock
+        - name: {{ .Values.relay.name }}-data
+          mountPath: /data
+        env:
+        - name: RELAY_COG_HOST
+          value: {{ template "cog.fullname" . }}
+        {{- range $key, $value :=  .Values.relay.config }}
+        - name: {{ $key | upper | replace "-" "_" }}
+          value: {{ $value | quote }}
+        {{- end }}
+        - name: RELAY_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "relay.fullname" . }}
+              key: relay-id
+        - name: RELAY_COG_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "relay.fullname" . }}
+              key: relay-cog-token
+        {{- if .Values.docker.registryPassword }}
+        - name: RELAY_DOCKER_REGISTRY_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "relay.fullname" . }}
+              key: docker-registry-password
+        - name: RELAY_DOCKER_REGISTRY_USER
+          value: {{ .Values.docker.registryUser | quote }}
+        - name: RELAY_DOCKER_REGISTRY_EMAIL
+          value: {{ .Values.docker.registryEmail | quote }}
+        {{- end }}
+      volumes:
+      - name: docker-socket
+        hostPath:
+          path: /var/run/docker.sock
+      - name: {{ .Values.relay.name }}-data
+        emptyDir: {}

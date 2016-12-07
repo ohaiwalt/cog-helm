@@ -1,0 +1,87 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "cog.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  replicas: {{ .Values.cog.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        heritage: "{{ .Release.Service }}"
+        release: "{{ .Release.Name }}"
+    spec:
+      containers:
+      - name: {{ .Values.cog.name }}
+        image: "{{ .Values.cog.image.repository }}:{{ .Values.cog.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+        - /home/operable/cog/scripts/docker-start
+        ports:
+        - containerPort: 80
+        - containerPort: 4001
+        - containerPort: 4002
+        - containerPort: 1883
+        resources:
+{{ toYaml .Values.cog.resources | indent 10 }}
+        volumeMounts:
+        - name: {{ .Values.cog.name }}-data
+          mountPath: /data
+        env:
+        {{- range $key, $value :=  .Values.cog.config }}
+        - name: {{ $key | upper | replace "-" "_" }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- if .Values.cog.slackEnabled }}
+        - name: COG_SLACK_ENABLED
+          value: "true"
+        - name: SLACK_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "cog.fullname" . }}
+              key: slack-api-token
+        {{- end }}
+        {{- if .Values.cog.hipchatEnabled }}
+        - name: COG_HIPCHAT_ENABLED
+          value: "true"
+        - name: COG_HIPCHAT_JABBER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "cog.fullname" . }}
+              key: cog-hipchat-jabber-password
+        - name: COG_HIPCHAT_USER_JABBER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "cog.fullname" . }}
+              key: cog-hipchat-user-jabber-password
+        {{- end }}
+        - name: COG_DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "cog.fullname" . }}
+              key: cog-database-url
+        - name: COG_BOOTSTRAP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "cog.fullname" . }}
+              key: cog-bootstrap-password
+        - name: RELAY_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "relay.fullname" . }}
+              key: relay-id
+        - name: RELAY_COG_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "relay.fullname" . }}
+              key: relay-cog-token
+      volumes:
+      - name: {{ .Values.cog.name }}-data
+        emptyDir: {}
+

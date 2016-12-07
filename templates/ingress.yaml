@@ -1,0 +1,39 @@
+{{- if .Values.cog.ingress.enabled -}}
+{{- $releaseName := .Release.Name -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+  {{- range $key, $value := .Values.cog.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "cog.fullname" . }}
+spec:
+  rules:
+  {{- range .Values.cog.ingress.hosts }}
+    - host: {{ . }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ printf "%s-%s" $releaseName "cog" | trunc 63 }}
+              servicePort: 80
+          - path: /trigger
+            backend:
+              serviceName: {{ printf "%s-%s" $releaseName "cog" | trunc 63 }}
+              servicePort: 4001
+          - path: /service
+            backend:
+              serviceName: {{ printf "%s-%s" $releaseName "cog" | trunc 63 }}
+              servicePort: 4002
+  {{- end -}}
+  {{- if .Values.cog.ingress.tls }}
+  tls:
+{{ toYaml .Values.cog.ingress.tls | indent 4 }}
+  {{- end -}}
+{{- end -}}
