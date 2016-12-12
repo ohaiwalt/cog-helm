@@ -61,21 +61,16 @@ spec:
               name: {{ template "cog.fullname" . }}
               key: cog-hipchat-user-jabber-password
         {{- end }}
-        - name: COG_DATABASE_URL
+        - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
               name: {{ template "cog.fullname" . }}
-              key: cog-database-url
+              key: database-url
         - name: COG_BOOTSTRAP_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ template "cog.fullname" . }}
               key: cog-bootstrap-password
-        - name: RELAY_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "relay.fullname" . }}
-              key: relay-id
         - name: RELAY_COG_TOKEN
           valueFrom:
             secretKeyRef:

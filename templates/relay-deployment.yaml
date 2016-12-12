@@ -36,11 +36,6 @@ spec:
         - name: {{ $key | upper | replace "-" "_" }}
           value: {{ $value | quote }}
         {{- end }}
-        - name: RELAY_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "relay.fullname" . }}
-              key: relay-id
         - name: RELAY_COG_TOKEN
           valueFrom:
             secretKeyRef:
