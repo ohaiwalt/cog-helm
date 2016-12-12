@@ -2,11 +2,15 @@
 
 [Cog](https://operable.io) is a ChatOps platform with some really great access control features, and allows writing additional functionality in any language.
 
+This chart is still alpha and will not include a Postgres database container until Helm includes a means of excluding dependent subcharts during deployment.
+
+In the mean time, deploying the [Postgres](https://github.com/kubernetes/charts/tree/master/stable/postgresql) chart from the Kubernetes charts repository will provide a small testing database for Cog's use.
+
 ## TL;DR;
 
 ```bash
-$ git clone https://github.com/ohaiwalt/cog-helm
-$ helm install cog-helm
+$ git clone https://github.com/ohaiwalt/cog-helm cog
+$ helm install cog
 ```
 
 ## Introduction

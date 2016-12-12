@@ -75,7 +75,7 @@ cog:
     relay-id: 00000000-0000-0000-0000-000000000000
 
     ## These variables are used to configure an initial admin account
-    # cog-bootstrap-chat-handle: 
+    # cog-bootstrap-chat-handle:
     cog-bootstrap-username: admin
     cog-bootstrap-email-address: cog@localhost
     cog-bootstrap-first-name: Cog
@@ -87,7 +87,7 @@ cog:
   ## Secrets don't like '-'
   secrets:
     slackAPIToken: 
-    cogDatabaseURL: 
+    databaseURL: 'ecto://cog:cog@postgresql:5432/cog'
     cogBootstrapPassword:
     cogHipchatJabberPassword:
     cogHipchatUserJabberPassword:
