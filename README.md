@@ -52,14 +52,14 @@ The following tables lists the required configuration variables. See the [values
 | Parameter                  | Description                                | Default                                                    |
 | -----------------------    | ----------------------------------         | ---------------------------------------------------------- |
 | `cog.secrets.slackAPIToken`                   | API Token for connecting to Slack | None |
-| `cog.secrets.cogDatabaseURL`                | Database connection string | `ecto://cog:cog@postgres:5432/cog` |
+| `cog.secrets.databaseURL`                | Database connection string | `ecto://cog:cog@postgres:5432/cog` |
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```bash
 $ helm install --name my-release \
-  --set cog.secrets.slackAPIToken=token,cog.secrets.cogDatabaseURL=connection \
+  --set cog.secrets.slackAPIToken=token,cog.secrets.databaseURL=connection \
     cog-helm
 ```
 
