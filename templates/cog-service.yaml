@@ -19,5 +19,8 @@ spec:
   - name: service-api
     port: 4002
     targetPort: 4002
+  - name: mqtt
+    port: 1883
+    targetPort: 1883
   selector:
     app: {{ template "cog.fullname" . }}
