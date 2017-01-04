@@ -28,6 +28,14 @@ spec:
         - containerPort: 4001
         - containerPort: 4002
         - containerPort: 1883
+        readinessProbe:
+          httpGet:
+            path: /v1/bootstrap
+            port: 4000
+          periodSeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 10
         resources:
 {{ toYaml .Values.cog.resources | indent 10 }}
         volumeMounts:
