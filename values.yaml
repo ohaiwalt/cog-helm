@@ -15,7 +15,7 @@ docker:
 ##
 cog:
   name: cog
-  serviceType: ClusterIP # If using an Ingress, this must be NodePort
+  serviceType: NodePort
   replicaCount: 1
   image:
     repository: operable/cog
