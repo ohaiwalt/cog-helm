@@ -1,0 +1,24 @@
+{{- if .Values.nginx.ingress.enabled -}}
+{{- $releaseName := .Release.Name -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+  {{- range $key, $value := .Values.nginx.ingress.annotations }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+  name: {{ template "nginx.fullname" . }}
+spec:
+  backend:
+    serviceName: {{ template "nginx.fullname" . }}
+    servicePort: 80
+  {{- if .Values.nginx.ingress.tls }}
+  tls:
+{{ toYaml .Values.nginx.ingress.tls | indent 4 }}
+  {{- end -}}
+{{- end -}}

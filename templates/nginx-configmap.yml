@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "nginx.fullname" . }}
+  labels:
+    app: {{ template "fullname" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+data:
+  cog.conf: |
+    upstream cog_base     { server {{ template "cog.fullname" . }}:4000; }
+    upstream cog_triggers { server {{ template "cog.fullname" . }}:4001; }
+    upstream cog_service  { server {{ template "cog.fullname" . }}:4002; }
+
+    server {
+      listen 80 default_server;
+
+      location / {
+        proxy_set_header X-Real_IP $remote_addr;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://cog_base;
+      }
+      location /trigger {
+        proxy_set_header X-Real_IP $remote_addr;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://cog_triggers/;
+      }
+      location /service {
+        proxy_set_header X-Real_IP $remote_addr;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Server $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://cog_service/;
+      }
+    }
