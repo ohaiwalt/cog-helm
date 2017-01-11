@@ -29,20 +29,6 @@ cog:
       cpu: 100m
       memory: 128Mi
 
-  ingress:
-    enabled: false
-
-    # hosts:
-    # - cog.example.com
-
-    # annotations:
-    #   kubernetes.io/tls-acme: true
-    #   kubernetes.io/ingress.class: nginx
-    # tls:
-    # - hosts:
-    #   - cog.example.com
-    #   secretName: cog-tls
-
   ## Chat provider toggle
   ## Only one can be 'true' at a time
   slackEnabled: true
@@ -136,3 +122,13 @@ nginx:
       cpu: 100m
       memory: 128Mi
   serviceType: LoadBalancer
+  ingress:
+    enabled: false
+
+    # annotations:
+    #   kubernetes.io/tls-acme: true
+    #   kubernetes.io/ingress.class: nginx
+    # tls:
+    # - hosts:
+    #   - cog.example.com
+    #   secretName: cog-tls
