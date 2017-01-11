@@ -30,3 +30,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- define "relay.fullname" -}}
 {{- printf "%s-%s" .Release.Name "relay" | trunc 63 -}}
 {{- end -}}
+
+{{/*
+Create a full qualified Nginx name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "nginx.fullname" -}}
+{{- printf "%s-%s" .Release.Name "nginx" | trunc 63 -}}
+{{- end -}}
