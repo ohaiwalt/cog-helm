@@ -24,7 +24,7 @@ spec:
         command:
         - /home/operable/cog/scripts/docker-start
         ports:
-        - containerPort: 80
+        - containerPort: 4000
         - containerPort: 4001
         - containerPort: 4002
         - containerPort: 1883
