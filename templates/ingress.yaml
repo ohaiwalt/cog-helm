@@ -15,22 +15,8 @@ metadata:
   name: {{ template "cog.fullname" . }}
 spec:
   backend:
-    serviceName: {{ printf "%s-%s" $releaseName "cog" | trunc 63 }}
-    servicePort: 4000
-  rules:
-  {{- range .Values.cog.ingress.hosts }}
-    - host: {{ . }}
-      http:
-        paths:
-          - path: /trigger
-            backend:
-              serviceName: {{ printf "%s-%s" $releaseName "cog" | trunc 63 }}
-              servicePort: 4001
-          - path: /service
-            backend:
-              serviceName: {{ printf "%s-%s" $releaseName "cog" | trunc 63 }}
-              servicePort: 4002
-  {{- end -}}
+    serviceName: {{ template "nginx.fullname" . }}
+    servicePort: 80
   {{- if .Values.cog.ingress.tls }}
   tls:
 {{ toYaml .Values.cog.ingress.tls | indent 4 }}

@@ -15,7 +15,7 @@ docker:
 ##
 cog:
   name: cog
-  serviceType: ClusterIP # If using an Ingress, this must be NodePort
+  serviceType: ClusterIP
   replicaCount: 1
   image:
     repository: operable/cog
@@ -29,11 +29,9 @@ cog:
       cpu: 100m
       memory: 128Mi
 
+  # Adds an ingress in front of Nginx
   ingress:
     enabled: false
-
-    # hosts:
-    # - cog.example.com
 
     # annotations:
     #   kubernetes.io/tls-acme: true
@@ -58,8 +56,8 @@ cog:
     # cog-hipchat-user-api-token:
     # cog-hipchat-user-jabber-ID:
     # cog-hipchat-user-nickname:
-    
-    ## 
+
+    ##
     mix-env: prod
 
     cog-allow-self-registration: 1
@@ -86,7 +84,7 @@ cog:
 
   ## Secrets don't like '-'
   secrets:
-    slackAPIToken: 
+    slackAPIToken:
     databaseURL: 'ecto://cog:cog@postgresql:5432/cog'
     cogBootstrapPassword:
     cogHipchatJabberPassword:
@@ -120,4 +118,19 @@ relay:
 
   ## Secrets don't like '-'
   secrets:
-    relayCogToken: 
+    relayCogToken:
+
+nginx:
+  name: nginx
+  replicaCount: 1
+  image:
+    repository: nginx
+    tag: 1.11
+  resources:
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  serviceType: LoadBalancer
