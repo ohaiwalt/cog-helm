@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ template "cog.fullname" . }}
   labels:
-    app: {{ template "fullname" . }}
+    app: {{ template "cog.fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
