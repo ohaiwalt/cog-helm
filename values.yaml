@@ -70,8 +70,6 @@ cog:
     cog-service-url-base: cog.example.com/service
     cog-trigger-url-base: cog.example.com/trigger
 
-    relay-id: 00000000-0000-0000-0000-000000000000
-
     ## These variables are used to configure an initial admin account
     # cog-bootstrap-chat-handle:
     cog-bootstrap-username: admin

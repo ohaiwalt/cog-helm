@@ -53,13 +53,14 @@ The following tables lists the required configuration variables. See the [values
 | -----------------------    | ----------------------------------         | ---------------------------------------------------------- |
 | `cog.secrets.slackAPIToken`                   | API Token for connecting to Slack | None |
 | `cog.secrets.databaseURL`                | Database connection string | `ecto://cog:cog@postgres:5432/cog` |
+| `relay.config.relay-id` | Relay Id | `00000000-0000-0000-0000-000000000000`
 
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```bash
 $ helm install --name my-release \
-  --set cog.secrets.slackAPIToken=token,cog.secrets.databaseURL=connection \
+  --set cog.secrets.slackAPIToken=token,cog.secrets.databaseURL=connection,relay.config.relay-id=$(uuidgen | tr '[:upper:]' '[:lower:]') \
     cog-helm
 ```
 
