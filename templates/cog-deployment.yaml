@@ -76,6 +76,8 @@ spec:
             secretKeyRef:
               name: {{ template "relay.fullname" . }}
               key: relay-cog-token
+        - name: "RELAY_ID"
+          value: {{ index .Values.relay.config "relay-id" }}
       volumes:
       - name: {{ .Values.cog.name }}-data
         emptyDir: {}
