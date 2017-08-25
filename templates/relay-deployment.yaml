@@ -44,16 +44,16 @@ spec:
               name: {{ template "relay.fullname" . }}
               key: RELAY_COG_TOKEN
 
-        {{- if .Values.docker.RELAY_DOCKER_REGISTRY_PASSWORD }}
+        {{- if .Values.RELAY_DOCKER_REGISTRY_PASSWORD }}
         - name: RELAY_DOCKER_REGISTRY_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ template "relay.fullname" . }}
               key: RELAY_DOCKER_REGISTRY_PASSWORD
         - name: RELAY_DOCKER_REGISTRY_USER
-          value: {{ .Values.docker.RELAY_DOCKER_REGISTRY_USER | quote }}
+          value: {{ .Values.RELAY_DOCKER_REGISTRY_USER | quote }}
         - name: RELAY_DOCKER_REGISTRY_EMAIL
-          value: {{ .Values.docker.RELAY_DOCKER_REGISTRY_EMAIL | quote }}
+          value: {{ .Values.RELAY_DOCKER_REGISTRY_EMAIL | quote }}
         {{- end }}
 
       volumes:

@@ -75,7 +75,7 @@ spec:
 
         # can't recall why used index here
         - name: RELAY_ID
-          value: {{ index .Values.relay.config "RELAY_ID" }}
+          value: {{ index .Values.relay.config "RELAY_ID" | quote }}
 
       volumes:
       - name: {{ .Values.cog.name }}-data
