@@ -38,46 +38,45 @@ spec:
         - name: {{ $key | upper | replace "-" "_" }}
           value: {{ $value | quote }}
         {{- end }}
-        {{- if .Values.cog.slackEnabled }}
-        - name: COG_SLACK_ENABLED
-          value: "true"
+        {{- if .Values.cog.config.COG_SLACK_ENABLED }}
         - name: SLACK_API_TOKEN
           valueFrom:
             secretKeyRef:
               name: {{ template "cog.fullname" . }}
-              key: slack-api-token
+              key: SLACK_API_TOKEN
         {{- end }}
-        {{- if .Values.cog.hipchatEnabled }}
-        - name: COG_HIPCHAT_ENABLED
-          value: "true"
+        {{- if .Values.cog.config.COG_HIPCHAT_ENABLED }}
         - name: COG_HIPCHAT_JABBER_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ template "cog.fullname" . }}
-              key: cog-hipchat-jabber-password
+              key: COG_HIPCHAT_JABBER_PASSWORD
         - name: COG_HIPCHAT_USER_JABBER_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ template "cog.fullname" . }}
-              key: cog-hipchat-user-jabber-password
+              key: COG_HIPCHAT_USER_JABBER_PASSWORD
         {{- end }}
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
               name: {{ template "cog.fullname" . }}
-              key: database-url
+              key: DATABASE_URL
         - name: COG_BOOTSTRAP_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ template "cog.fullname" . }}
-              key: cog-bootstrap-password
+              key: COG_BOOTSTRAP_PASSWORD
         - name: RELAY_COG_TOKEN
           valueFrom:
             secretKeyRef:
               name: {{ template "relay.fullname" . }}
-              key: relay-cog-token
-        - name: "RELAY_ID"
-          value: {{ index .Values.relay.config "relay-id" }}
+              key: RELAY_COG_TOKEN
+
+        # can't recall why used index here
+        - name: RELAY_ID
+          value: {{ index .Values.relay.config "RELAY_ID" }}
+
       volumes:
       - name: {{ .Values.cog.name }}-data
         emptyDir: {}

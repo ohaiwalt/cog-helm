@@ -5,10 +5,9 @@ image:
   pullPolicy: IfNotPresent
 
 ## Configure Docker Registry login credentials for private repositories
-docker:
-    registryEmail:
-    registryUser:
-    registryPassword:
+RELAY_DOCKER_REGISTRY_EMAIL:
+RELAY_DOCKER_REGISTRY_USER:
+RELAY_DOCKER_REGISTRY_PASSWORD:
 
 ##
 ## COG
@@ -41,52 +40,53 @@ cog:
     #   - cog.example.com
     #   secretName: cog-tls
 
-  ## Chat provider toggle
-  ## Only one can be 'true' at a time
-  slackEnabled: true
-  hipchatEnabled: false
-
   ## Config values snake-case for templating delimiter
   config:
+
+    ## Chat provider toggle
+    ## Only one can be 'true' at a time
+    COG_SLACK_ENABLED: true
+    COG_HIPCHAT_ENABLED: false
+
     ## Hipchat specific configuration
-    # cog-hipchat-api-token:
-    # cog-hipchat-jabber-id:
-    # cog-hipchat-nickname:
-    # cog-hipchat-rooms:
-    # cog-hipchat-user-api-token:
-    # cog-hipchat-user-jabber-ID:
-    # cog-hipchat-user-nickname:
+    # COG_HIPCHAT_API_TOKEN:
+    # COG_HIPCHAT_JABBER_ID:
+    # COG_HIPCHAT_NICKNAME:
+    # COG_HIPCHAT_ROOMS:
+    # COG_HIPCHAT_USER_API_TOKEN:
+    # COG_HIPCHAT_USER_JABBER_ID:
+    # COG_HIPCHAT_USER_NICKNAME:
 
-    ##
-    mix-env: prod
+    ## 
+    MIX_ENV: prod
 
-    cog-allow-self-registration: 1
-    cog-mqtt-host: 0.0.0.0
-    cog-mqtt-port: 1883
+    COG_ALLOW_SELF_REGISTRATION: 1
+    COG_MQTT_HOST: 0.0.0.0
+    COG_MQTT_PORT: 1883
 
-    cog-api-url-base: cog.example.com
+    COG_API_URL_BASE: cog.example.com
     ## Cog usually represents these endpoints as separate ports
     ## Configuring the url-base allows them on the same domain
-    cog-service-url-base: cog.example.com/service
-    cog-trigger-url-base: cog.example.com/trigger
+    COG_SERVICE_URL_BASE: cog.example.com/service
+    COG_TRIGGER_URL_BASE: cog.example.com/trigger
 
     ## These variables are used to configure an initial admin account
-    # cog-bootstrap-chat-handle:
-    cog-bootstrap-username: admin
-    cog-bootstrap-email-address: cog@localhost
-    cog-bootstrap-first-name: Cog
-    cog-bootstrap-last-name: Administrator
+    # COG_BOOTSTRAP_CHAT_HANDLE:
+    COG_BOOTSTRAP_USERNAME: admin
+    COG_BOOTSTRAP_EMAIL_ADDRESS: cog@localhost
+    COG_BOOTSTRAP_FIRST_NAME: Cog
+    COG_BOOTSTRAP_LAST_NAME: Administrator
 
     ## send anonymized user data back to Operable
-    cog-telemetry: false
+    COG_TELEMETRY: false
 
   ## Secrets don't like '-'
   secrets:
-    slackAPIToken:
-    databaseURL: 'ecto://cog:cog@postgresql:5432/cog'
-    cogBootstrapPassword:
-    cogHipchatJabberPassword:
-    cogHipchatUserJabberPassword:
+    SLACK_API_TOKEN:
+    DATABASE_URL: 'ecto://cog:cog@postgresql:5432/cog'
+    COG_BOOTSTRAP_PASSWORD:
+    COG_HIPCHAT_JABBER_PASSWORD:
+    COG_HIPCHAT_USER_JABBER_PASSWORD:
 
 ##
 ## RELAY
@@ -107,16 +107,16 @@ relay:
       memory: 128Mi
 
   config:
-    relay-id: 00000000-0000-0000-0000-000000000000
-    relay-managed-dynamic-config: true
-    relay-dynamic-config-root: /tmp/bundle_configs
-    relay-cog-refresh-interval: 30s
-    relay-docker-clean-interval: 1m
-    relay-log-level: info
+    RELAY_ID: 00000000-0000-0000-0000-000000000000
+    RELAY_MANAGED_DYNAMIC_CONFIG: true
+    RELAY_DYNAMIC_CONFIG_ROOT: /tmp/bundle_configs
+    RELAY_COG_REFRESH_INTERVAL: 30s
+    RELAY_DOCKER_CLEAN_INTERVAL: 1m
+    RELAY_LOG_LEVEL: info
 
   ## Secrets don't like '-'
   secrets:
-    relayCogToken:
+    RELAY_COG_TOKEN:
 
 nginx:
   name: nginx
