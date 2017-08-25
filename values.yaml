@@ -82,11 +82,11 @@ cog:
 
   ## Secrets don't like '-'
   secrets:
-    SLACK_API_TOKEN: foo
+    SLACK_API_TOKEN:
     DATABASE_URL: 'ecto://cog:cog@postgresql:5432/cog'
-    COG_BOOTSTRAP_PASSWORD: foo
-    COG_HIPCHAT_JABBER_PASSWORD: foo
-    COG_HIPCHAT_USER_JABBER_PASSWORD: foo
+    COG_BOOTSTRAP_PASSWORD:
+    COG_HIPCHAT_JABBER_PASSWORD:
+    COG_HIPCHAT_USER_JABBER_PASSWORD:
 
 ##
 ## RELAY
@@ -116,7 +116,7 @@ relay:
 
   ## Secrets don't like '-'
   secrets:
-    RELAY_COG_TOKEN: foo
+    RELAY_COG_TOKEN:
 
 nginx:
   name: nginx
