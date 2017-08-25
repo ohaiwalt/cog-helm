@@ -32,26 +32,30 @@ spec:
         env:
         - name: RELAY_COG_HOST
           value: {{ template "cog.fullname" . }}
+
         {{- range $key, $value :=  .Values.relay.config }}
         - name: {{ $key | upper | replace "-" "_" }}
           value: {{ $value | quote }}
         {{- end }}
+
         - name: RELAY_COG_TOKEN
           valueFrom:
             secretKeyRef:
               name: {{ template "relay.fullname" . }}
-              key: relay-cog-token
-        {{- if .Values.docker.registryPassword }}
+              key: RELAY_COG_TOKEN
+
+        {{- if .Values.RELAY_DOCKER_REGISTRY_PASSWORD }}
         - name: RELAY_DOCKER_REGISTRY_PASSWORD
           valueFrom:
             secretKeyRef:
               name: {{ template "relay.fullname" . }}
-              key: docker-registry-password
+              key: RELAY_DOCKER_REGISTRY_PASSWORD
         - name: RELAY_DOCKER_REGISTRY_USER
-          value: {{ .Values.docker.registryUser | quote }}
+          value: {{ .Values.RELAY_DOCKER_REGISTRY_USER | quote }}
         - name: RELAY_DOCKER_REGISTRY_EMAIL
-          value: {{ .Values.docker.registryEmail | quote }}
+          value: {{ .Values.RELAY_DOCKER_REGISTRY_EMAIL | quote }}
         {{- end }}
+
       volumes:
       - name: docker-socket
         hostPath:
